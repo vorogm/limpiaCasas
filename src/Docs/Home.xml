@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<homes>
+     <home>
+          <cod>1</cod>
+          <type>house</type>
+          <city>vlc</city>
+          <surface unit="m2">22</surface>
+          <rooms>2</rooms>
+          <price coin="€">22</price>
+          <pictures>picture_1.jpg</pictures>
+          <pictures>picture_2.jpg</pictures>
+     </home>
+     <home>
+          <cod>2</cod>
+          <type>Chalet</type>
+          <city>vlc</city>
+          <surface unit="m2">200</surface>
+          <rooms>4</rooms>
+          <price coin="€">300</price>
+          <pictures>picture_1.jpg</pictures>
+          <pictures>picture_2.jpg</pictures>
+     </home>
+</homes>

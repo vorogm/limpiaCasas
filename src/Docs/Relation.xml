@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<relations>
+     <relation>
+          <dni>73454213r</dni>
+          <cod>1</cod>
+          <day>Lunes</day>
+          <hours>5</hours>
+     </relation>
+     <relation>
+          <dni>123</dni>
+          <cod>1</cod>
+          <day>martes</day>
+          <hours>4</hours>
+     </relation>
+     <relation>
+          <dni>1</dni>
+          <cod>2</cod>
+          <day>jueves</day>
+          <hours>4</hours>
+     </relation>
+     <relation>
+          <dni>1</dni>
+          <cod>2</cod>
+          <day>sabado</day>
+          <hours>12</hours>
+     </relation>
+</relations>
