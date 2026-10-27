@@ -68,6 +68,10 @@ public class Home
 		
 
 	}
+	/**
+	 * 
+	 * Getters And Setters
+	 */
 
 	public int getiCod() {
 		return iCod;

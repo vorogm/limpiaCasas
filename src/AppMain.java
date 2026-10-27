@@ -14,13 +14,13 @@ import org.xml.sax.SAXParseException;
 public class AppMain {
 
 	private static int iOption;
-	private static ArrayList<Home> alHome = new ArrayList<Home>();	
-	private static ArrayList<Employee> alEmp = new ArrayList<Employee>();
-	private static ArrayList<Relation> alRel = new ArrayList<Relation>();
+	protected static ArrayList<Home> alHome = new ArrayList<Home>();	
+	protected static ArrayList<Employee> alEmp = new ArrayList<Employee>();
+	protected static ArrayList<Relation> alRel = new ArrayList<Relation>();
 	static final String OBJXMLNAME_HOME = "home";
 	static final String OBJXMLNAME_EMP = "employee";
 	static final String OBJXMLNAME_REL = "relation";
-	static final String XML_FILENAME_HOME = "src/Docs/Home.xml";
+	static final String XML_FILENAME_HOME = "src/Docs/Home.xml";     
 	static final String XSL_FILENAME_HOME = "src/Docs/Home.xsl";
 	static final String HTML_FILENAME_HOME = "src/Docs/Home.html";
 	static final String XML_FILENAME_EMP = "src/Docs/Employee.xml";
@@ -46,7 +46,7 @@ public class AppMain {
 		do 
 		{			
 			iOption = IOTools.showMenu(
-					"\tLimpiaCasas Bu Yunchaokete", "Exit", "Add", "List","Search","Remove","Erase File","Export to File CSV", "See in HTML", "About the APP");
+					"\tLimpiaCasas Bu Yunchaokete", "Exit", "Add", "List","Search","Remove","Erase File","Export to File CSV", "Import from CSV","See in HTML", "About the APP");
 			caseOptions(iOption); 
 			
 		}while(true);
@@ -81,27 +81,33 @@ public class AppMain {
 
 			listObjects(); 
 			break;
+		case 3:
+			SearchOrRemove.search();
+			break;
+		case 4: 
+			SearchOrRemove.remove();
+			break;
 		case 5: 
-			System.out.println("\t You are going to search a Home.");
-			System.out.println("--------------------------------------------");
-			
-		if (fileExists(XML_FILENAME_HOME,"No Homes Saved")) SearchOrRemove.searchHome(alHome);
-//			break;
-//		case 6: 
-//			if (fileExists(XML_FILENAME,"No Homes Saved")) SearchRemove.removeHome(alHome);
-//			break;
-//		case 7: 
-//			if (fileExists(XML_FILENAME,XML_FILENAME + " NOT FOUND. ")) SearchRemove.eliminarXML(true);
-//			break;
-//		case 6 :
-//			if (fileExists(XML_FILENAME,XML_FILENAME + " No Homes Saved. ")) ExportCSV.createCSV(alHome);			
-//			break;
-//		case 7: 
-//			if (fileExists(XML_FILENAME,XML_FILENAME + " NOT FOUND. ")) XSL.toHTML();
-//			break;
-			
-		case 8:
-			//about(); 
+			int iAnswer = IOTools.showMenu("What File.XML do you want to erased? ", "Cancel", "Home.xml", "Employee.xml", "Relation.xml");
+			if (iAnswer == 1) SearchOrRemove.eliminarXML(XML_FILENAME_HOME, true);
+			else if (iAnswer == 2) SearchOrRemove.eliminarXML(XML_FILENAME_EMP, true);
+			else if (iAnswer == 3) SearchOrRemove.eliminarXML(XML_FILENAME_REL, true);
+			break;
+		case 6 :
+				ExportImportCSV.export();			
+			break;
+		case 7 :
+			ExportImportCSV.askImport();
+			break;
+		case 8: 
+				// pregunt que tabla quiere mostrar en HTML y le paso los datos de esa tabla.
+			int iHtml = IOTools.showMenu("What table do you want to see in HTML?","Cancel", "Home", "Employee", "Relation");
+				if (iHtml == 1) XSL.toHTML(HTML_FILENAME_HOME, XML_FILENAME_HOME,XSL_FILENAME_HOME);
+				else if (iHtml == 2) XSL.toHTML(HTML_FILENAME_EMP, XML_FILENAME_EMP,XSL_FILENAME_EMP);
+				else if (iHtml == 3) XSL.toHTML(HTML_FILENAME_REL, XML_FILENAME_REL,XSL_FILENAME_REL);				
+			break;			
+		case 9:
+			about(); 
 			break;
 		
 		default : 
@@ -224,14 +230,27 @@ public class AppMain {
 					if (iAnswer == 1) IOTools.pressEnterToContinue();
 				}
 			}
+			System.out.println("           --- END ---");
 			IOTools.pressEnterToContinue();
 		}
 		
 			
 	}
-	public static ArrayList<Employee> getAlEmployee()
+//	public static ArrayList<Employee> getAlEmployee()
+//	{
+//		return alEmp;
+//	}
+	/**
+	 * Método que llama a la clase Info dependiendo el idioma.
+	 */
+	public static void about()
 	{
-		return alEmp;
+		System.out.println("---------------------------");
+		int iAnswer = IOTools.askInt("Select a Languague: \n 1. English \n 2. Spanish \n ------------\n Option: ", 1, 2);
+		if (iAnswer == 1) Info.en();
+		else Info.esp();
+		IOTools.pressEnterToContinue();
 	}
+
 
 }

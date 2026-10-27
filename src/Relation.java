@@ -29,7 +29,7 @@ public class Relation {
 	{
 		System.out.println("========================");
 		System.out.println("DNI:      " + stDni);
-		mostrarNombre();
+		System.out.println("Name:     " + mostrarNombre());		
 		System.out.println("Cod:      " + iCod);
 		System.out.println("Day:      " + stDay);
 		System.out.println("Hours:    " + iHours);
@@ -37,20 +37,24 @@ public class Relation {
 	}
 	/**
 	 * Método que busca en el Array de empleados un dni,
-	 * y devuelve el el nombre 
+	 * y devuelve el nombre 
 	 * @return
 	 */
 	public String mostrarNombre() 
 	{
-//		ArrayList
-		for (Employee emp : AppMain.getAlEmployee()) 
+		for (Employee emp : AppMain.alEmp) 
 			
 			if (emp.getStDni().equalsIgnoreCase(stDni)) 
 				
-				System.out.println("Name:      " + emp.getStFullName());
+				return emp.getStFullName();
 		
-		return "";
+		return null;
 	}
+	
+	/**
+	 * 
+	 * Getters And Setters
+	 */
 
 	public String getStDni() {
 		return stDni;

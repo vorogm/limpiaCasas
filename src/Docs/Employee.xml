@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <employees>
      <employee>
-          <dni>73454213r</dni>
-          <fullname>carlet</fullname>
-          <tlf>666555444</tlf>
-          <active>yes</active>
+          <dni>777</dni>
+          <fullname>Fulgencio</fullname>
+          <tlf>666512344</tlf>
+          <active>no</active>
      </employee>
      <employee>
-          <dni>123</dni>
-          <fullname>carl jung</fullname>
-          <tlf>666777888</tlf>
-          <active>yes</active>
+          <dni>111</dni>
+          <fullname>alberto santos</fullname>
+          <tlf>666512344</tlf>
+          <active>no</active>
      </employee>
      <employee>
-          <dni>1</dni>
-          <fullname>juan carlos</fullname>
-          <tlf>96344321</tlf>
+          <dni>999</dni>
+          <fullname>salvador prieta</fullname>
+          <tlf>666512344</tlf>
+          <active>no</active>
+     </employee>
+     <employee>
+          <dni>222</dni>
+          <fullname>juan martinez</fullname>
+          <tlf>666512344</tlf>
           <active>no</active>
      </employee>
 </employees>

@@ -35,7 +35,10 @@ public class Employee {
 	}
 	
 	
-	// GETTERS AND SETTERS
+	/**
+	 * 
+	 * Getters And Setters
+	 */
 
 	public String getStDni() {
 		return stDni;

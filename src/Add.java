@@ -17,8 +17,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Clase que añade Homes al XML.
- * Primero pregunta por un campo como filtro.
+ * Clase que añade Homes, Employees y Relations al XML.
+ * Primero pregunta pide los campos 
  * Segundo crea un XML virtual
  * Tercero: transforma el XML y crea el fichero
  * 
@@ -75,7 +75,7 @@ public class Add {
 		do {
 			 iCod = IOTools.askInt("Código: ");
 			 
-			if (bExist(iCod,alHome)) 	// uso el método bExists() que se encuentra más abajo	
+			if (bExist(iCod)) 	// uso el método bExists() que se encuentra más abajo	
 			{
 				System.out.println("=======================================");
 				System.out.println(" WARNING: This cod is already used !!");
@@ -85,8 +85,8 @@ public class Add {
 			 
 		}while(true);
 
-		String stType = IOTools.askString("Type of Home, (House, Appartament, Chalet, Bungalow)", "House", "Appartament", "Chalet", "Bungalow");
-		String stCity = IOTools.askString("City");
+		String stType = capitalLeters(IOTools.askString("Type of Home, (House, Appartament, Chalet, Bungalow)", "House", "Appartament", "Chalet", "Bungalow"));
+		String stCity = capitalLeters(IOTools.askString("City"));
 		int iSurface = IOTools.askInt("Surface m2");
 		int iRooms = IOTools.askInt("Total Rooms");		
 		int iPrice = IOTools.askInt("Price");		
@@ -104,14 +104,19 @@ public class Add {
 		
 		alHome.add(home);		
 		
-		// llamo al método que creará el XML
-		createXmlHome(alHome);
+		// llamo al método que creará el XML y pasamos true para que muestre un mensage
+		createXmlHome(true);
 	}
 	
 	/**
-	 * Método que crea un xml con los datos del empleado
+	 * /**
+	 * Método que pide datos, crea los objetos Employee y los almacena 
+	 * en el ArrayList<Employee> alEmp.
+	 * ArrayList<Employee> alEmp: variable para almacenar los objetos.
 	 * El DNI introducido no debe de estar ya registrado
-	 */
+	 * 
+	 **/
+
 	public static void addEmployee(ArrayList<Employee> alEmp)		// ########################
 	{
 		String stDni; 
@@ -120,7 +125,7 @@ public class Add {
 		do {
 			stDni = IOTools.askString("DNI: ");
 			 
-			if (bExist(stDni,alEmp)) 	// uso el método bExists() que se encuentra más abajo	
+			if (bExist(stDni)) 	// uso el método bExists() que se encuentra más abajo	
 			{
 				System.out.println("=======================================");
 				System.out.println(" WARNING: This DNI is already used !!");
@@ -130,8 +135,9 @@ public class Add {
 			 
 		}while(true);
 	
+		// Primero pide el nombre, luego lo divide en palabras  y llama al método para hacer las capital letters.
 		
-		String stFullName = IOTools.askString("Full Name");
+		String stFullName = capitalLeters(IOTools.askString("Full Name").split(" "));
 		int iTlf = IOTools.askInt("TLF");
 		int iActive = IOTools.askInt("Active (1. Yes / 2. No", 1,2);  // paso los parametros 1 y 2, para que solo pueda responderme eso.		
 		boolean bActive = (iActive == 1) ? true : false;	
@@ -145,13 +151,18 @@ public class Add {
 		
 		alEmp.add(emp);		
 		
-		// llamo al método que creará el XML
-		createXmlEmp(alEmp);
+		// llamo al método que creará el XML y pasamos true para que muestre un mensage
+		createXmlEmp(alEmp, true);
 	}
+	
 	/**
-	 * Método que crea un xml con la relación entre empleado y vivienda
+	 * Método que pide datos, crea los objetos Employee y los almacena 
+	 * en el ArrayList<Relation> alRel.
+	 * ArrayList<Relation> alRel: variable para almacenar los objetos.
 	 * Tanto el DNI del trabajador como el cod de la vivienda, deben existir.
+	 * Y no se puede repetir la vivienda y dia.
 	 */
+	
 	public static void addRelation(ArrayList<Relation> alRel,ArrayList<Employee> alEmp, ArrayList<Home> alHome)		// ########################
 	{
 		String stDni;
@@ -162,7 +173,7 @@ public class Add {
 		do {
 			stDni = IOTools.askString("DNI: ");
 			 
-			if (!bExist(stDni,alEmp)) 	// uso el método bExists() que se encuentra más abajo	
+			if (!bExist(stDni)) 	// uso el método bExists() que se encuentra más abajo	
 			{
 				System.out.println("=======================================");
 				System.out.println(" WARNING: This DNI doesn't exist !!");
@@ -175,7 +186,7 @@ public class Add {
 		/**
 		 * He decidido que una misma casa puede ser limpiada por uno o mas empleados 
 		 * y en varios dias. Pero no puede coincidir, una misma casa, con el mismo dia.
-		 * Tiene que ser otro día, pero puede ser el mismo employee y otro.
+		 * Tiene que ser otro día, pero puede ser el mismo employee u otro.
 		 */
 		
 					// este do comprueba que no coincida vivienda y dia.
@@ -186,7 +197,7 @@ public class Add {
 			do {
 				iCod = IOTools.askInt("Cod: ");
 				 
-				if (!bExist(iCod,alHome)) 	// uso el método bExists() que se encuentra más abajo	
+				if (!bExist(iCod)) 	// uso el método bExists() que se encuentra más abajo	
 				{
 					System.out.println("=======================================");
 					System.out.println(" WARNING: This Cod doesn't exist !!");
@@ -197,7 +208,7 @@ public class Add {
 			}while(true);
 			
 			
-			stDay = IOTools.askString("Day", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado");
+			stDay = capitalLeters(IOTools.askString("Day", "lunes", "martes", "miercoles", "jueves", "viernes", "sabado"));
 			
 			
 			bCoincide = false;
@@ -226,8 +237,8 @@ public class Add {
 		
 		alRel.add(rel);		
 		
-		// llamo al método que creará el XML
-		createXmlRel(alRel);
+		// llamo al método que creará el XML y pasamos true para que muestre un mensage
+		createXmlRel(alRel,true);
 		
 		
 	}
@@ -238,7 +249,7 @@ public class Add {
 	 * el valor de los campos.
 	 **/
 	
-	public static void createXmlHome(ArrayList<Home> alHome ) 
+	public static void createXmlHome(boolean texto) 
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -267,7 +278,7 @@ public class Add {
 			 *	un for each.
 			 */			
 
-			for (Home objHome : alHome ) {		
+			for (Home objHome : AppMain.alHome ) {		
 			
 
 				eNode = document.createElement(AppMain.OBJXMLNAME_HOME);
@@ -335,13 +346,20 @@ public class Add {
 			// Una vez creado en memoria el XML, llamó al método que lo transforma y escribe fisicamente.
 
 			transformXML(document, output);
+			if (texto)
+			{
+				System.out.println("\n=======================================");
+				System.out.println("    Home Added !!");
+				System.out.println("=======================================");
+				IOTools.pressEnterToContinue();
+			}
 		
 		}catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
 	
-	public static void createXmlEmp(ArrayList<Employee> alEmp) 
+	public static void createXmlEmp(ArrayList<Employee> alEmp, Boolean texto) 
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -407,6 +425,13 @@ public class Add {
 			// Una vez creado en memoria el XML, lEmployeelamó al método que lo transforma y escribe fisicamente.
 
 			transformXML(document, output);
+			if (texto)
+			{
+				System.out.println("\n=======================================");
+				System.out.println("    Employeed Added !!");
+				System.out.println("=======================================");
+				IOTools.pressEnterToContinue();
+			}
 		
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -417,7 +442,7 @@ public class Add {
 	 * 
 	 * @param alRel es ele arrayList en el que guardará los datos de la relación
 	 */
-	public static void createXmlRel(ArrayList<Relation> alRel) 
+	public static void createXmlRel(ArrayList<Relation> alRel, Boolean texto) 
 	{
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		
@@ -431,7 +456,7 @@ public class Add {
 			 * Creo la primera etiqueta que es la principal (root)
 			 * OBJXMLNAME es el nombre de la etiqueta que se repite (hijo de root)
 			 *  y añado "s" para que sea el nombre del root.
-			 */		
+			 */		//		String[] name = stFullName.split(" ");
 			
 			Element rootElement = document.createElement(AppMain.OBJXMLNAME_REL + "s"); 
 			document.appendChild(rootElement);
@@ -475,6 +500,14 @@ public class Add {
 			// Una vez creado en memoria el XML, llamó al método que lo transforma y escribe fisicamente.
 
 			transformXML(document, output);
+			
+			if (texto)
+			{
+				System.out.println("\n=======================================");
+				System.out.println("   Relation  Added !!");
+				System.out.println("=======================================");
+				IOTools.pressEnterToContinue();
+			}
 		
 		}catch (Exception e) {
 			// TODO: handle exception
@@ -500,11 +533,6 @@ public class Add {
 			
 			transformer.transform(source, result);
 			
-			System.out.println("\n=======================================");
-			System.out.println("     Added !!");
-			System.out.println("=======================================");
-			IOTools.pressEnterToContinue();
-			
 
 		} catch (TransformerConfigurationException tce) {
 			tce.printStackTrace();
@@ -520,24 +548,37 @@ public class Add {
 	 * Se le pasa el código introducido por teclado
 	 *  y el array donde estan todos los códigos de las viviendas
 	 **/
-	public static Boolean bExist(int iCod, ArrayList<Home> al) 
+	public static Boolean bExist(int iCod) 
 	{
 
-		for (Home home : al) {			
+		for (Home home : AppMain.alHome) {			
 		
 			if (home.getiCod() == iCod)  return true;
 			
 		}
 		return false;
 	}
-	public static Boolean bExist(String stDni, ArrayList<Employee> al) 
+	public static Boolean bExist(String stDni) 
 	{
 
-		for (Employee emp : al) {			
+		for (Employee emp : AppMain.alEmp) {			
 		
 			if (emp.getStDni().equalsIgnoreCase(stDni) )  return true;
 			
 		}
 		return false;
+	}
+	public static String capitalLeters(String... cadena) {
+		String resultado="";
+		
+		for (String palabra : cadena) 
+		{
+			resultado += palabra.substring(0,1).toUpperCase() + palabra.substring(1).toLowerCase() + " ";
+		}
+		return resultado.trim(); // pongo trim para que quite el ultimo espacio.
+			
+
+
+
 	}
 }
